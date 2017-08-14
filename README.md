@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/iaintshine/ruby-tracing-logger.svg?branch=master)](https://travis-ci.org/iaintshine/ruby-tracing-logger)
+
 # Tracing::Logger
 
 TODO: Write something about the gem
