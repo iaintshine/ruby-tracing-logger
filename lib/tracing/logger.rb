@@ -39,7 +39,11 @@ module Tracing
       span = active_span
 
       if span && message
-        span.log(event: message, severity: format_severity(severity), progname: progname, pid: $$)
+        if @formatter
+          span.log(event: format_message(format_severity(severity), Time.now, progname, message))
+        else
+          span.log(event: message, severity: format_severity(severity), progname: progname, pid: $$)
+        end
       end
 
       true

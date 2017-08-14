@@ -68,6 +68,23 @@ RSpec.describe Tracing::Logger do
 
         expect(span.logs.size).to eq(severities.size)
       end
+
+      it "allows to customize formatter" do
+        logger.formatter = TestFormatter.new
+
+        logger.add(::Logger::DEBUG, "test message", "test progname")
+
+        log = span.logs.first
+        expect(log.event).to eq("s: DEBUG, pid: ##{$$}, progname: test progname, msg: test message")
+      end
+    end
+  end
+
+  class TestFormatter
+    Format = "s: %s, pid: #%d, progname: %s, msg: %s".freeze
+
+    def call(severity, time, progname, msg)
+      Format % [severity, $$, progname, msg]
     end
   end
 end
