@@ -29,14 +29,14 @@ require 'spanmanager'
 require 'tracing/logger'
 
 OpenTracing.global_tracer = SpanManager::Tracer.new(OpenTracing.global_tracer)
-logger = Tracing::Logger.new(active_span: -> { OpenTracing.global_tracer.active_span }, logger: Logger::ERROR)
+logger = Tracing::Logger.new(active_span: -> { OpenTracing.global_tracer.active_span }, level: Logger::ERROR)
 logger.error("description of some exceptional event")
 ```
 
 The gem comes with `Tracing::CompositeLogger`. It allows to specify multiple destination loggers, each with different level and formatter. Might be very useful in cases where you want to write all the logs to a file, and only those exceptional to a tracer.  
 
 ```ruby
-tracing_logger = Tracing::Logger.new(active_span: -> { OpenTracing.global_tracer.active_span }, logger: Logger::ERROR)
+tracing_logger = Tracing::Logger.new(active_span: -> { OpenTracing.global_tracer.active_span }, level: Logger::ERROR)
 file_logger = Logger.new('log.txt')
 composite_logger = Tracing::CompositeLogger.new(tracing_logger, file_logger)
 composite_logger.error("description of some exceptional event") # => both destinations, tracing and file loggers, will be callled
