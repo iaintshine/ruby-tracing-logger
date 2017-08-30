@@ -34,7 +34,7 @@ RSpec.describe Tracing::Logger do
       it "doesn't log the message" do
         logger.add(::Logger::DEBUG, "test message")
 
-        expect(span.logs).to be_empty
+        expect(span).not_to have_logs
       end
     end
 
@@ -48,16 +48,13 @@ RSpec.describe Tracing::Logger do
       it "logs the message" do
         logger.add(::Logger::DEBUG, "test message")
 
-        expect(span.logs).not_to be_empty
+        expect(span).to have_logs
       end
 
       it "fills up log entry with proper attributes" do
         logger.add(::Logger::DEBUG, "test message", "test progname")
 
-        log = span.logs.first
-        expect(log.event).to eq("test message")
-        expect(log.fields[:severity]).to eq("DEBUG")
-        expect(log.fields[:progname]).to eq("test progname")
+        expect(span).to have_log(event: "test message", severity: "DEBUG", progname: "test progname")
       end
 
       it "understands severity levels well" do
@@ -74,8 +71,7 @@ RSpec.describe Tracing::Logger do
 
         logger.add(::Logger::DEBUG, "test message", "test progname")
 
-        log = span.logs.first
-        expect(log.event).to eq("s: DEBUG, pid: ##{$$}, progname: test progname, msg: test message")
+        expect(span).to have_log(event: "s: DEBUG, pid: ##{$$}, progname: test progname, msg: test message")
       end
     end
   end
