@@ -50,7 +50,7 @@ module Tracing
     end
 
     def active_span
-      @active_span&.call
+      @active_span.call if @active_span
     end
   end
 end
