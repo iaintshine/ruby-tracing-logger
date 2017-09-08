@@ -26,7 +26,7 @@ To initialize a new instance of `Tracing::Logger` you need to specify at least a
 
 ```ruby
 require 'spanmanager'
-require 'tracing/logger'
+require 'tracing-logger'
 
 OpenTracing.global_tracer = SpanManager::Tracer.new(OpenTracing.global_tracer)
 logger = Tracing::Logger.new(active_span: -> { OpenTracing.global_tracer.active_span }, level: Logger::ERROR)

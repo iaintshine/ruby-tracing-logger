@@ -1,7 +1,6 @@
 require "bundler/setup"
-require "test/tracer"
-require "tracing/logger"
-require "tracing/matchers"
+require "tracing-matchers"
+require "tracing-logger"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
